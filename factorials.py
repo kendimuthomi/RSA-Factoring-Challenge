@@ -2,30 +2,20 @@
 import sys
 
 
-def factor(line):
-    number = int(line)
-    value = 0
-    if number < 4:
-        print("{:d}={:d}*1".format(number, number))
-        return
-    for i in range(2, number):
-        if number % i == 0:
-            value = number // i
-            break
-    print("{:d}={:d}*{:d}".format(number, value, i))
+def primef(n):
+    if n <= 3:
+        return int(n)
+    if n % 2 == 0:
+        return 2
+    elif n % 3 == 0:
+        return 3
+    else:
+        for i in range(5, int((n)**0.5) + 1, 6):
+            if n % i == 0:
+                return int(i)
+            if n % (i + 2) == 0:
+                return primef(n/(i+2))
+    return int(n)
 
 
-if len(sys.argv) != 2:
-    print("Usage: factors <file>")
-    sys.exit()
-filename = sys.argv[1]
-try:
-    test = open(filename, "r")
-except FileNotFoundError:
-    print("Error: Can't open file <{:s}>".format(filename))
-    sys.exit()
-
-for line in test:
-    factor(line)
-
-test.close()
+print(primef(int(sys.argv[1])))
